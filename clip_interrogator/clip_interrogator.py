@@ -262,6 +262,24 @@ class Interrogator():
         classic_prompt = self.interrogate_classic(image, max_flavors, caption=caption)
         candidates = [caption, classic_prompt, fast_prompt, best_prompt]
         return candidates[np.argmax(self.similarities(image_features, candidates))]
+    
+    '''
+    # replace the "interrogate" function with this if you only want to use "best_prompt"
+    def interrogate(self, image: Image, min_flavors: int=8, max_flavors: int=32, caption: Optional[str]=None) -> str:
+        caption = caption or self.generate_caption(image)
+        image_features = self.image_to_features(image)
+
+        merged = _merge_tables([self.artists, self.flavors, self.mediums, self.movements, self.trendings], self.config)
+        flaves = merged.rank(image_features, self.config.flavor_intermediate_count)
+        best_prompt, best_sim = caption, self.similarity(image_features, caption)
+        best_prompt = self.chain(image_features, flaves, best_prompt, best_sim, min_count=min_flavors, max_count=max_flavors, desc="Flavor chain")
+
+        # fast_prompt = self.interrogate_fast(image, max_flavors, caption=caption)
+        # classic_prompt = self.interrogate_classic(image, max_flavors, caption=caption)
+        # candidates = [caption, classic_prompt, fast_prompt, best_prompt]
+        # return candidates[np.argmax(self.similarities(image_features, candidates))]
+        return best_prompt
+    '''
 
     def rank_top(self, image_features: torch.Tensor, text_array: List[str], reverse: bool=False) -> str:
         self._prepare_clip()
