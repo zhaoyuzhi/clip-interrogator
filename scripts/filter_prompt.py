@@ -35,12 +35,12 @@ def postp_text(text, unuseful_prompt, whether_add_share_str = False):
                 save_tag = False
         if save_tag:
             out_list.append(prompt_list[i])
+    out_string = ''
+    for j in range(len(out_list)):
+        out_string += out_list[j]
+        if j != len(out_list) - 1:
+            out_string += ', '
     if whether_add_share_str:
-        out_string = ''
-        for j in range(len(out_list)):
-            out_string += out_list[j]
-            if j != len(out_list) - 1:
-                out_string += ', '
         out_string += ', gta v style'
     return out_string
 

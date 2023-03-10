@@ -263,9 +263,8 @@ class Interrogator():
         candidates = [caption, classic_prompt, fast_prompt, best_prompt]
         return candidates[np.argmax(self.similarities(image_features, candidates))]
     
-    '''
     # replace the "interrogate" function with this if you only want to use "best_prompt"
-    def interrogate(self, image: Image, min_flavors: int=8, max_flavors: int=32, caption: Optional[str]=None) -> str:
+    def interrogate_best(self, image: Image, min_flavors: int=8, max_flavors: int=32, caption: Optional[str]=None) -> str:
         caption = caption or self.generate_caption(image)
         image_features = self.image_to_features(image)
 
@@ -279,7 +278,6 @@ class Interrogator():
         # candidates = [caption, classic_prompt, fast_prompt, best_prompt]
         # return candidates[np.argmax(self.similarities(image_features, candidates))]
         return best_prompt
-    '''
 
     def rank_top(self, image_features: torch.Tensor, text_array: List[str], reverse: bool=False) -> str:
         self._prepare_clip()

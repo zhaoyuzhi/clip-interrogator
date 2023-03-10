@@ -1,4 +1,4 @@
-cd ./clip-interrogator
+cd /apdcephfs/share_1159505/hosizhao/clip-interrogator
 
 source ~/.bashrc
 conda activate pt113
