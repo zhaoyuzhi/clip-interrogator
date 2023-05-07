@@ -5,4 +5,5 @@ requests
 safetensors
 tqdm
 open_clip_torch
-blip-ci
+accelerate
+transformers>=4.27.1

@@ -10,7 +10,7 @@
 
 Run Version 2 on Colab, HuggingFace, and Replicate!
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pharmapsychotic/clip-interrogator/blob/main/clip_interrogator.ipynb) [![Generic badge](https://img.shields.io/badge/🤗-Open%20in%20Spaces-blue.svg)](https://huggingface.co/spaces/pharma/CLIP-Interrogator) [![Replicate](https://replicate.com/pharmapsychotic/clip-interrogator/badge)](https://replicate.com/pharmapsychotic/clip-interrogator)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pharmapsychotic/clip-interrogator/blob/main/clip_interrogator.ipynb) [![Generic badge](https://img.shields.io/badge/🤗-Open%20in%20Spaces-blue.svg)](https://huggingface.co/spaces/pharma/CLIP-Interrogator) [![Replicate](https://replicate.com/pharmapsychotic/clip-interrogator/badge)](https://replicate.com/pharmapsychotic/clip-interrogator) [![Lambda](https://img.shields.io/badge/%CE%BB-Lambda-blue)](https://cloud.lambdalabs.com/demos/ml/CLIP-Interrogator)
 
 <br>
 
@@ -43,6 +43,9 @@ pip3 install torch torchvision --extra-index-url https://download.pytorch.org/wh
 
 # install clip-interrogator
 pip install clip-interrogator==0.5.4
+
+# or for very latest WIP with BLIP2 support
+#pip install clip-interrogator==0.6.0
 ```
 
 ### Running
@@ -78,3 +81,17 @@ The `Config` object lets you configure CLIP Interrogator's processing.
 On systems with low VRAM you can call `config.apply_low_vram_defaults()` to reduce the amount of VRAM needed (at the cost of some speed and quality). The default settings use about 6.3GB of VRAM and the low VRAM settings use about 2.7GB.
 
 See the [run_cli.py](https://github.com/pharmapsychotic/clip-interrogator/blob/main/run_cli.py) and [run_gradio.py](https://github.com/pharmapsychotic/clip-interrogator/blob/main/run_gradio.py) for more examples on using Config and Interrogator classes.
+
+
+## Ranking against your own list of terms (requires version 0.6.0)
+
+```python
+from clip_interrogator import Config, Interrogator, LabelTable, load_list
+from PIL import Image
+
+ci = Interrogator(Config(blip_model_type=None))
+image = Image.open(image_path).convert('RGB')
+table = LabelTable(load_list('terms.txt'), 'terms', ci)
+best_match = table.rank(ci.image_to_features(image), top_count=1)[0]
+print(best_match)
+```
